@@ -110,8 +110,24 @@ export class KeywordAnalyzer {
     }
 
     private extractTextContent(html: string): string {
-        let text = html.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '');
-        text = text.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '');
+        // Remove script and style tags using iterative replacement to handle all variations
+        // This is more secure than complex regex patterns
+        let text = html;
+        
+        // Remove all script tags - multiple passes to handle nested/malformed tags
+        let prevText = '';
+        while (prevText !== text) {
+            prevText = text;
+            text = text.replace(/<script\b[^>]*>[\s\S]*?<\/script[^>]*>/gi, ' ');
+        }
+        
+        // Remove all style tags - multiple passes to handle nested/malformed tags
+        prevText = '';
+        while (prevText !== text) {
+            prevText = text;
+            text = text.replace(/<style\b[^>]*>[\s\S]*?<\/style[^>]*>/gi, ' ');
+        }
+        
         text = this.stripHtmlTags(text);
         text = text.replace(/\s+/g, ' ').trim();
         return text;
