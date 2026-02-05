@@ -134,7 +134,17 @@ export class LinkAnalyzer {
     }
 
     private stripHtmlTags(html: string): string {
-        return html.replace(/<[^>]*>/g, '');
+        // Remove HTML tags using iterative replacement for security
+        let text = html;
+        let prevText = '';
+        
+        // Multiple passes to handle nested/malformed tags
+        while (prevText !== text) {
+            prevText = text;
+            text = text.replace(/<[^>]*>/g, ' ');
+        }
+        
+        return text.trim();
     }
 
     private createDiagnostic(
