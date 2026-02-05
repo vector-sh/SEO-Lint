@@ -22,8 +22,8 @@ This document tracks the implementation status of features requested in the comp
 - ✅ **Internal linking opportunities** (NEWLY ADDED)
 
 ### 3. Technical SEO (Partial)
-- ✅ **robots.txt validator** (NEWLY ADDED)
-- ❌ sitemap.xml generator and validator (PLANNED)
+- ✅ **robots.txt validator** (NEWLY ADDED v1.1)
+- ✅ **sitemap.xml generator and validator** (NEWLY ADDED v1.2)
 - ❌ Broken link detection (requires file system crawling)
 - ❌ Page speed insights from code analysis
 - ✅ Mobile-friendly code checks (viewport meta tag)
@@ -39,15 +39,15 @@ This document tracks the implementation status of features requested in the comp
 
 ## 📊 Feature Coverage Summary
 
-### Core MVP Features: **85% Complete**
+### Core MVP Features: **90% Complete**
 - **Meta Tags**: 100% ✅
 - **Headings**: 100% ✅
 - **Content**: 100% ✅
 - **Keywords**: 100% ✅
 - **Images**: 100% ✅
-- **URLs**: 100% ✅ (NEW)
-- **Links**: 100% ✅ (NEW)
-- **Technical SEO**: 40% (robots.txt ✅, sitemap ❌, broken links ❌, speed ❌)
+- **URLs**: 100% ✅ (NEW v1.1)
+- **Links**: 100% ✅ (NEW v1.1)
+- **Technical SEO**: 60% (robots.txt ✅, sitemap ✅, broken links ❌, speed ❌)
 
 ---
 
@@ -128,7 +128,31 @@ Extension Components:
 
 ---
 
-## 🎯 What Was Added in This Update (v1.1.0)
+## 🎯 What Was Added in v1.2.0
+
+### New Analyzers (1)
+1. **SitemapAnalyzer** - Sitemap generation and validation
+
+### New Features
+- Sitemap.xml generation from workspace HTML files
+- Automatic URL path conversion (removes index.html, .html extensions)
+- Smart lastmod detection from file modification times
+- Complete sitemap validation (structure, URLs, limits, formats)
+- New commands: "Generate sitemap.xml" and "Validate sitemap.xml"
+
+### Validation Checks Added: ~15
+- XML declaration and structure
+- xmlns namespace requirement
+- Absolute URL validation
+- changefreq value validation
+- priority range validation (0.0-1.0)
+- lastmod date format validation
+- 50,000 URL limit
+- 50MB file size limit
+
+---
+
+## 🎯 What Was Added in v1.1.0
 
 ### New Analyzers (3)
 1. **UrlAnalyzer** - SEO-friendly URL validation
@@ -188,7 +212,7 @@ Extension Components:
 
 - **Current implementation focuses on MVP features** that don't require external APIs or services
 - **All core on-page SEO features are implemented** or have basic support
-- **Technical SEO is partially implemented** (robots.txt ✅, sitemap and performance ❌)
+- **Technical SEO is well-implemented** (robots.txt ✅, sitemap ✅, broken links ❌, performance ❌)
 - **Advanced features** (AI, integrations, historical tracking) are intentionally deferred for future releases
 - **Current version is production-ready** for the core use case: catching SEO issues in code before deployment
 
@@ -197,11 +221,11 @@ Extension Components:
 ## 📈 Implementation Progress
 
 **Total Features Requested**: ~60+
-**Implemented**: ~25 (42%)
+**Implemented**: ~27 (45%)
 **Partially Implemented**: ~5 (8%)
-**Not Started**: ~30 (50%)
+**Not Started**: ~28 (47%)
 
-**MVP Core Features**: 85% Complete ✅
+**MVP Core Features**: 90% Complete ✅
 **Advanced Features**: 0% Complete (as expected for MVP)
 
 The extension successfully implements the **core MVP** features needed for developers to catch SEO issues in their code during development. Advanced features requiring external APIs, AI, and cloud services are appropriately deferred to future releases.

@@ -94,12 +94,77 @@ export function activate(context: vscode.ExtensionContext) {
         }
     });
 
+    const sitemapGenerateCommand = vscode.commands.registerCommand('seo-lint.generateSitemap', async () => {
+        const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
+        if (!workspaceFolder) {
+            vscode.window.showWarningMessage('No workspace folder found');
+            return;
+        }
+
+        // Prompt for base URL
+        const baseUrl = await vscode.window.showInputBox({
+            prompt: 'Enter your website base URL (e.g., https://example.com)',
+            placeHolder: 'https://example.com',
+            validateInput: (value) => {
+                if (!value) {
+                    return 'Base URL is required';
+                }
+                if (!value.startsWith('http://') && !value.startsWith('https://')) {
+                    return 'URL must start with http:// or https://';
+                }
+                return null;
+            }
+        });
+
+        if (!baseUrl) {
+            return;
+        }
+
+        try {
+            const sitemapXml = await diagnosticProvider.generateSitemap(workspaceFolder, baseUrl);
+            
+            // Create sitemap.xml in workspace root
+            const sitemapUri = vscode.Uri.joinPath(workspaceFolder.uri, 'sitemap.xml');
+            const encoder = new TextEncoder();
+            await vscode.workspace.fs.writeFile(sitemapUri, encoder.encode(sitemapXml));
+            
+            // Open the generated file
+            const document = await vscode.workspace.openTextDocument(sitemapUri);
+            await vscode.window.showTextDocument(document);
+            
+            vscode.window.showInformationMessage('sitemap.xml generated successfully!');
+        } catch (error) {
+            vscode.window.showErrorMessage(`Error generating sitemap: ${error}`);
+        }
+    });
+
+    const sitemapValidateCommand = vscode.commands.registerCommand('seo-lint.validateSitemap', async () => {
+        const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
+        if (!workspaceFolder) {
+            vscode.window.showWarningMessage('No workspace folder found');
+            return;
+        }
+
+        const sitemapUri = vscode.Uri.joinPath(workspaceFolder.uri, 'sitemap.xml');
+        
+        try {
+            const document = await vscode.workspace.openTextDocument(sitemapUri);
+            await vscode.window.showTextDocument(document);
+            await diagnosticProvider.analyzeSitemap(document);
+            vscode.window.showInformationMessage('sitemap.xml validation complete!');
+        } catch (error) {
+            vscode.window.showWarningMessage('sitemap.xml not found in workspace root. Use "Generate Sitemap" command to create one.');
+        }
+    });
+
     // Register event listeners
     context.subscriptions.push(
         analyzeCommand,
         auditCommand,
         reportCommand,
         robotsCommand,
+        sitemapGenerateCommand,
+        sitemapValidateCommand,
         vscode.workspace.onDidOpenTextDocument(doc => {
             if (shouldAnalyze(doc)) {
                 diagnosticProvider.analyzeDocument(doc);

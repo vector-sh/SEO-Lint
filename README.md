@@ -52,6 +52,8 @@ SEO Lint automatically analyzes your files as you type, providing real-time feed
 - **SEO Lint: Run Site Audit** - Scan all HTML/JSX/Vue files in your workspace
 - **SEO Lint: Show SEO Report** - Display a comprehensive SEO report
 - **SEO Lint: Validate robots.txt** - Validate your robots.txt file for syntax and best practices
+- **SEO Lint: Generate sitemap.xml** - Generate a sitemap.xml from your HTML files
+- **SEO Lint: Validate sitemap.xml** - Validate your sitemap.xml for errors and best practices
 
 Access commands via:
 - Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P`)
@@ -144,6 +146,15 @@ Configure SEO Lint in your VSCode settings:
 - ✅ Valid JSON syntax
 - ✅ Required properties for common schema types
 - ✅ Organization, Person, Article, Product, WebSite schemas
+
+### Sitemap
+- ✅ XML sitemap generation from HTML files
+- ✅ Sitemap validation (XML structure, URLs, limits)
+- ✅ URL format validation (absolute URLs required)
+- ✅ changefreq and priority validation
+- ✅ lastmod date format validation (W3C/ISO 8601)
+- ✅ 50,000 URL limit enforcement
+- ✅ 50MB file size limit check
 
 ## 🎨 Examples
 

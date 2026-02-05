@@ -2,6 +2,28 @@
 
 All notable changes to the "SEO Lint" extension will be documented in this file.
 
+## [1.2.0] - 2024-02-05
+
+### Added
+- **Sitemap Generator**: Automatically generate sitemap.xml from HTML files in your workspace
+  - Scans workspace for HTML files
+  - Prompts for base URL
+  - Generates standards-compliant XML sitemap
+  - Includes lastmod, changefreq, and priority for each URL
+  - Smart URL path conversion (removes index.html, .html extensions)
+- **Sitemap Validator**: Complete sitemap.xml validation including:
+  - XML structure validation
+  - Required xmlns namespace check
+  - URL format validation (must be absolute)
+  - changefreq value validation (always, hourly, daily, weekly, monthly, yearly, never)
+  - priority range validation (0.0 to 1.0)
+  - lastmod date format validation (W3C/ISO 8601)
+  - 50,000 URL limit enforcement
+  - 50MB file size limit check
+- **New Commands**:
+  - "SEO Lint: Generate sitemap.xml" - Generate sitemap from workspace files
+  - "SEO Lint: Validate sitemap.xml" - Validate existing sitemap
+
 ## [1.1.0] - 2024-02-05
 
 ### Added

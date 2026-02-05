@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import { SeoAnalyzer } from './analyzers/seoAnalyzer';
 import { RobotsAnalyzer } from './analyzers/robotsAnalyzer';
+import { SitemapAnalyzer } from './analyzers/sitemapAnalyzer';
 
 interface ReportData {
     totalIssues: number;
@@ -13,11 +14,13 @@ interface ReportData {
 export class DiagnosticProvider {
     private analyzer: SeoAnalyzer;
     private robotsAnalyzer: RobotsAnalyzer;
+    private sitemapAnalyzer: SitemapAnalyzer;
     private allDiagnostics: Map<string, vscode.Diagnostic[]> = new Map();
 
     constructor(private diagnosticCollection: vscode.DiagnosticCollection) {
         this.analyzer = new SeoAnalyzer();
         this.robotsAnalyzer = new RobotsAnalyzer();
+        this.sitemapAnalyzer = new SitemapAnalyzer();
     }
 
     async analyzeDocument(document: vscode.TextDocument): Promise<void> {
@@ -42,6 +45,20 @@ export class DiagnosticProvider {
         } catch (error) {
             console.error('Error analyzing robots.txt:', error);
         }
+    }
+
+    async analyzeSitemap(document: vscode.TextDocument): Promise<void> {
+        try {
+            const diagnostics = await this.sitemapAnalyzer.validateSitemap(document);
+            this.allDiagnostics.set(document.uri.toString(), diagnostics);
+            this.diagnosticCollection.set(document.uri, diagnostics);
+        } catch (error) {
+            console.error('Error analyzing sitemap:', error);
+        }
+    }
+
+    async generateSitemap(workspaceFolder: vscode.WorkspaceFolder, baseUrl: string): Promise<string> {
+        return await this.sitemapAnalyzer.generateSitemap(workspaceFolder, baseUrl);
     }
 
     generateReport(): ReportData {

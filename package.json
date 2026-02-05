@@ -55,6 +55,14 @@
       {
         "command": "seo-lint.validateRobotsTxt",
         "title": "SEO Lint: Validate robots.txt"
+      },
+      {
+        "command": "seo-lint.generateSitemap",
+        "title": "SEO Lint: Generate sitemap.xml"
+      },
+      {
+        "command": "seo-lint.validateSitemap",
+        "title": "SEO Lint: Validate sitemap.xml"
       }
     ],
     "configuration": {
