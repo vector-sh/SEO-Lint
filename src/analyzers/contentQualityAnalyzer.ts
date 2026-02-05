@@ -30,8 +30,32 @@ export class ContentQualityAnalyzer {
         const sentences = textContent.split(/[.!?]+/).filter(s => s.trim().length > 0);
         const sentenceCount = sentences.length;
 
-        if (sentenceCount > 0) {
+        if (sentenceCount > 0 && wordCount > 0) {
             const avgWordsPerSentence = wordCount / sentenceCount;
+            
+            // Calculate Flesch Reading Ease score
+            const syllableCount = this.countSyllables(words);
+            const fleschScore = this.calculateFleschScore(wordCount, sentenceCount, syllableCount);
+            
+            // Provide Flesch Reading Ease feedback
+            if (fleschScore < 60) {
+                const difficulty = fleschScore < 30 ? 'very difficult' : 'difficult';
+                diagnostics.push(this.createDiagnostic(
+                    document,
+                    text,
+                    '<body',
+                    `Readability score is ${fleschScore.toFixed(0)} (${difficulty}). Aim for 60+ for better readability. Simplify sentences and use shorter words.`,
+                    vscode.DiagnosticSeverity.Warning
+                ));
+            } else if (fleschScore >= 60 && fleschScore < 70) {
+                diagnostics.push(this.createDiagnostic(
+                    document,
+                    text,
+                    '<body',
+                    `Readability score is ${fleschScore.toFixed(0)} (standard). This is acceptable, but could be improved for wider audience appeal.`,
+                    vscode.DiagnosticSeverity.Information
+                ));
+            }
             
             // Flag overly complex sentences
             if (avgWordsPerSentence > 25) {
@@ -114,6 +138,45 @@ export class ContentQualityAnalyzer {
 
     private stripHtmlTags(html: string): string {
         return html.replace(/<[^>]*>/g, ' ');
+    }
+
+    private countSyllables(words: string[]): number {
+        let totalSyllables = 0;
+        for (const word of words) {
+            totalSyllables += this.syllableCount(word);
+        }
+        return totalSyllables;
+    }
+
+    private syllableCount(word: string): number {
+        word = word.toLowerCase().replace(/[^a-z]/g, '');
+        if (word.length <= 3) {
+            return 1;
+        }
+        
+        // Count vowel groups
+        const vowelGroups = word.match(/[aeiouy]+/g);
+        let count = vowelGroups ? vowelGroups.length : 0;
+        
+        // Adjust for silent e at the end
+        if (word.endsWith('e') && count > 1) {
+            count--;
+        }
+        
+        // Adjust for -le ending
+        if (word.match(/[^aeiou]le$/)) {
+            count++;
+        }
+        
+        return count || 1;
+    }
+
+    private calculateFleschScore(words: number, sentences: number, syllables: number): number {
+        // Flesch Reading Ease = 206.835 - 1.015 * (words/sentences) - 84.6 * (syllables/words)
+        const avgWordsPerSentence = words / sentences;
+        const avgSyllablesPerWord = syllables / words;
+        const score = 206.835 - (1.015 * avgWordsPerSentence) - (84.6 * avgSyllablesPerWord);
+        return Math.max(0, Math.min(100, score)); // Clamp between 0-100
     }
 
     private extractPhrases(words: string[], length: number): string[] {

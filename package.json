@@ -51,6 +51,10 @@
       {
         "command": "seo-lint.showReport",
         "title": "SEO Lint: Show SEO Report"
+      },
+      {
+        "command": "seo-lint.validateRobotsTxt",
+        "title": "SEO Lint: Validate robots.txt"
       }
     ],
     "configuration": {

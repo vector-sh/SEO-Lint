@@ -75,11 +75,31 @@ export function activate(context: vscode.ExtensionContext) {
         panel.webview.html = getReportHtml(report);
     });
 
+    const robotsCommand = vscode.commands.registerCommand('seo-lint.validateRobotsTxt', async () => {
+        const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
+        if (!workspaceFolder) {
+            vscode.window.showWarningMessage('No workspace folder found');
+            return;
+        }
+
+        const robotsUri = vscode.Uri.joinPath(workspaceFolder.uri, 'robots.txt');
+        
+        try {
+            const document = await vscode.workspace.openTextDocument(robotsUri);
+            await vscode.window.showTextDocument(document);
+            await diagnosticProvider.analyzeRobotsTxt(document);
+            vscode.window.showInformationMessage('robots.txt validation complete!');
+        } catch (error) {
+            vscode.window.showWarningMessage('robots.txt not found in workspace root. Create one to control search engine crawling.');
+        }
+    });
+
     // Register event listeners
     context.subscriptions.push(
         analyzeCommand,
         auditCommand,
         reportCommand,
+        robotsCommand,
         vscode.workspace.onDidOpenTextDocument(doc => {
             if (shouldAnalyze(doc)) {
                 diagnosticProvider.analyzeDocument(doc);

@@ -2,6 +2,36 @@
 
 All notable changes to the "SEO Lint" extension will be documented in this file.
 
+## [1.1.0] - 2024-02-05
+
+### Added
+- **Flesch Reading Ease Score**: Advanced readability analysis with industry-standard Flesch Reading Ease formula
+- **Twitter Card Validation**: Complete validation for Twitter Card meta tags (twitter:card, twitter:title, twitter:description, twitter:image)
+- **URL Structure Analysis**: SEO-friendly URL validation including:
+  - URL length checks
+  - Lowercase enforcement
+  - Underscore vs hyphen recommendations
+  - Query parameter warnings
+  - Path segment analysis
+- **Internal Link Analysis**: Comprehensive link validation including:
+  - Internal vs external link detection
+  - Anchor text quality checks
+  - Generic link text detection ("click here", "read more")
+  - Empty link text validation
+  - External link security (rel="noopener noreferrer")
+- **robots.txt Validator**: Complete robots.txt validation including:
+  - Syntax validation
+  - User-agent directive checks
+  - Disallow/Allow directive validation
+  - Sitemap URL validation
+  - Crawl-delay recommendations
+- **New Command**: "SEO Lint: Validate robots.txt" for direct robots.txt validation
+
+### Enhanced
+- Content quality analyzer now includes syllable counting for accurate Flesch score
+- Diagnostic categorization expanded to include "URLs & Links" and "Technical SEO"
+- Improved diagnostic messages with more actionable recommendations
+
 ## [1.0.0] - 2024-02-05
 
 ### Added
@@ -45,7 +75,8 @@ All notable changes to the "SEO Lint" extension will be documented in this file.
 - Performance metrics
 - Mobile-first analysis
 - International SEO support
-- XML sitemap validation
-- Robots.txt validation
-- AI-powered suggestions
+- XML sitemap generator and validator
+- AI-powered content suggestions
 - Accessibility (WCAG) checks
+- SERP preview simulator
+- Historical SEO score tracking

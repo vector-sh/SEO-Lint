@@ -8,12 +8,15 @@
 ## ✨ Features
 
 ### 🎯 Real-time SEO Analysis
-- **Meta Tags Validation**: Automatically checks title tags, meta descriptions, Open Graph tags, and more
+- **Meta Tags Validation**: Automatically checks title tags, meta descriptions, Open Graph tags, Twitter Cards, and more
 - **Heading Structure**: Ensures proper H1-H6 hierarchy and accessibility
-- **Content Quality**: Analyzes word count, readability scores, and paragraph length
+- **Content Quality**: Analyzes word count, Flesch Reading Ease score, and paragraph length
 - **Keyword Analysis**: Detects keyword stuffing and suggests optimal keyword placement
 - **Image Optimization**: Validates alt text, lazy loading, and Core Web Vitals compliance
 - **Schema.org Validation**: Checks structured data (JSON-LD) for rich search results
+- **URL Structure**: Validates SEO-friendly URLs and checks for common issues
+- **Link Analysis**: Validates internal/external links and anchor text quality
+- **Technical SEO**: robots.txt validation for search engine crawling control
 
 ### 🚀 Framework Support
 - ✅ **HTML** - Static websites
@@ -48,6 +51,7 @@ SEO Lint automatically analyzes your files as you type, providing real-time feed
 - **SEO Lint: Analyze Current Page** - Analyze the currently open file
 - **SEO Lint: Run Site Audit** - Scan all HTML/JSX/Vue files in your workspace
 - **SEO Lint: Show SEO Report** - Display a comprehensive SEO report
+- **SEO Lint: Validate robots.txt** - Validate your robots.txt file for syntax and best practices
 
 Access commands via:
 - Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P`)
@@ -85,6 +89,7 @@ Configure SEO Lint in your VSCode settings:
 - ✅ Title tag presence and length (50-60 characters)
 - ✅ Meta description presence and length (150-160 characters)
 - ✅ Open Graph tags (og:title, og:description, og:image, og:url)
+- ✅ Twitter Card tags (twitter:card, twitter:title, twitter:description, twitter:image)
 - ✅ Viewport meta tag for mobile responsiveness
 - ✅ Charset declaration
 - ✅ Canonical URL
@@ -97,6 +102,7 @@ Configure SEO Lint in your VSCode settings:
 
 ### Content Quality
 - ✅ Minimum word count
+- ✅ Flesch Reading Ease score
 - ✅ Average sentence length
 - ✅ Paragraph length
 - ✅ Duplicate content detection
@@ -115,6 +121,23 @@ Configure SEO Lint in your VSCode settings:
 - ✅ Loading attribute (lazy loading)
 - ✅ Width and height attributes (Core Web Vitals)
 - ✅ Title attribute
+
+### URLs & Links
+- ✅ SEO-friendly URL structure
+- ✅ URL length validation
+- ✅ Lowercase URL enforcement
+- ✅ Hyphen vs underscore usage
+- ✅ Internal link detection
+- ✅ External link security (rel attributes)
+- ✅ Anchor text quality
+- ✅ Generic link text detection
+
+### Technical SEO
+- ✅ robots.txt validation
+- ✅ User-agent directive checks
+- ✅ Disallow/Allow directive validation
+- ✅ Sitemap URL validation
+- ✅ Crawl-delay validation
 
 ### Schema.org
 - ✅ JSON-LD structured data presence

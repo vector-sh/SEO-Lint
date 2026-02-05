@@ -89,6 +89,38 @@ export class MetaTagAnalyzer {
             }
         }
 
+        // Check for Twitter Card tags
+        const twitterTags = ['twitter:card', 'twitter:title', 'twitter:description', 'twitter:image'];
+        const hasAnyTwitterTag = twitterTags.some(tag => {
+            const regex = new RegExp(`<meta\\s+name=["']${tag}["'][^>]*>`, 'i');
+            return text.match(regex);
+        });
+
+        if (hasAnyTwitterTag) {
+            // If any Twitter tag exists, check for all required ones
+            for (const tag of twitterTags) {
+                const regex = new RegExp(`<meta\\s+name=["']${tag}["'][^>]*>`, 'i');
+                if (!text.match(regex)) {
+                    diagnostics.push(this.createDiagnostic(
+                        document,
+                        text,
+                        '<head',
+                        `Missing Twitter Card tag: ${tag}. Complete Twitter Card tags for better Twitter sharing.`,
+                        vscode.DiagnosticSeverity.Information
+                    ));
+                }
+            }
+        } else {
+            // No Twitter tags at all
+            diagnostics.push(this.createDiagnostic(
+                document,
+                text,
+                '<head',
+                'Missing Twitter Card tags. Add Twitter Card meta tags to improve Twitter sharing appearance.',
+                vscode.DiagnosticSeverity.Information
+            ));
+        }
+
         // Check for viewport meta tag
         const viewportMatch = text.match(/<meta\s+name=["']viewport["'][^>]*>/i);
         if (!viewportMatch) {

@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import { SeoAnalyzer } from './analyzers/seoAnalyzer';
+import { RobotsAnalyzer } from './analyzers/robotsAnalyzer';
 
 interface ReportData {
     totalIssues: number;
@@ -11,10 +12,12 @@ interface ReportData {
 
 export class DiagnosticProvider {
     private analyzer: SeoAnalyzer;
+    private robotsAnalyzer: RobotsAnalyzer;
     private allDiagnostics: Map<string, vscode.Diagnostic[]> = new Map();
 
     constructor(private diagnosticCollection: vscode.DiagnosticCollection) {
         this.analyzer = new SeoAnalyzer();
+        this.robotsAnalyzer = new RobotsAnalyzer();
     }
 
     async analyzeDocument(document: vscode.TextDocument): Promise<void> {
@@ -28,6 +31,16 @@ export class DiagnosticProvider {
             this.diagnosticCollection.set(document.uri, diagnostics);
         } catch (error) {
             console.error('Error analyzing document:', error);
+        }
+    }
+
+    async analyzeRobotsTxt(document: vscode.TextDocument): Promise<void> {
+        try {
+            const diagnostics = await this.robotsAnalyzer.analyzeRobotsTxt(document);
+            this.allDiagnostics.set(document.uri.toString(), diagnostics);
+            this.diagnosticCollection.set(document.uri, diagnostics);
+        } catch (error) {
+            console.error('Error analyzing robots.txt:', error);
         }
     }
 
@@ -91,11 +104,11 @@ export class DiagnosticProvider {
     }
 
     private getCategory(message: string): string {
-        if (message.includes('meta') || message.includes('title') || message.includes('description')) {
+        if (message.includes('meta') || message.includes('title') || message.includes('description') || message.includes('Twitter Card')) {
             return 'Meta Tags';
         } else if (message.includes('heading') || message.includes('h1') || message.includes('h2')) {
             return 'Headings';
-        } else if (message.includes('word count') || message.includes('readability')) {
+        } else if (message.includes('word count') || message.includes('readability') || message.includes('Flesch')) {
             return 'Content Quality';
         } else if (message.includes('keyword') || message.includes('density')) {
             return 'Keywords';
@@ -103,6 +116,10 @@ export class DiagnosticProvider {
             return 'Images';
         } else if (message.includes('schema')) {
             return 'Schema';
+        } else if (message.includes('URL') || message.includes('url') || message.includes('link') || message.includes('href')) {
+            return 'URLs & Links';
+        } else if (message.includes('robots.txt') || message.includes('User-agent') || message.includes('Disallow')) {
+            return 'Technical SEO';
         }
         return 'Other';
     }

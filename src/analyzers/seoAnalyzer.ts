@@ -5,6 +5,8 @@ import { ContentQualityAnalyzer } from './contentQualityAnalyzer';
 import { KeywordAnalyzer } from './keywordAnalyzer';
 import { ImageAnalyzer } from './imageAnalyzer';
 import { SchemaAnalyzer } from './schemaAnalyzer';
+import { UrlAnalyzer } from './urlAnalyzer';
+import { LinkAnalyzer } from './linkAnalyzer';
 
 export class SeoAnalyzer {
     private metaTagAnalyzer: MetaTagAnalyzer;
@@ -13,6 +15,8 @@ export class SeoAnalyzer {
     private keywordAnalyzer: KeywordAnalyzer;
     private imageAnalyzer: ImageAnalyzer;
     private schemaAnalyzer: SchemaAnalyzer;
+    private urlAnalyzer: UrlAnalyzer;
+    private linkAnalyzer: LinkAnalyzer;
 
     constructor() {
         this.metaTagAnalyzer = new MetaTagAnalyzer();
@@ -21,6 +25,8 @@ export class SeoAnalyzer {
         this.keywordAnalyzer = new KeywordAnalyzer();
         this.imageAnalyzer = new ImageAnalyzer();
         this.schemaAnalyzer = new SchemaAnalyzer();
+        this.urlAnalyzer = new UrlAnalyzer();
+        this.linkAnalyzer = new LinkAnalyzer();
     }
 
     async analyze(document: vscode.TextDocument): Promise<vscode.Diagnostic[]> {
@@ -40,6 +46,8 @@ export class SeoAnalyzer {
             diagnostics.push(...await this.keywordAnalyzer.analyze(document, text));
             diagnostics.push(...await this.imageAnalyzer.analyze(document, text));
             diagnostics.push(...await this.schemaAnalyzer.analyze(document, text));
+            diagnostics.push(...await this.urlAnalyzer.analyze(document, text));
+            diagnostics.push(...await this.linkAnalyzer.analyze(document, text));
         } catch (error) {
             console.error('Error during SEO analysis:', error);
         }
