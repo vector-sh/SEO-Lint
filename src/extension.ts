@@ -1,5 +1,4 @@
 import * as vscode from 'vscode';
-import { SeoAnalyzer } from './analyzers/seoAnalyzer';
 import { DiagnosticProvider } from './diagnosticProvider';
 
 let diagnosticCollection: vscode.DiagnosticCollection;

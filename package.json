@@ -4,6 +4,15 @@
   "description": "Analyze and optimize website SEO directly in your editor. Real-time diagnostics for meta tags, headings, keywords, and content quality.",
   "version": "1.0.0",
   "publisher": "vector-sh",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vector-sh/SEO-Lint.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vector-sh/SEO-Lint/issues"
+  },
+  "homepage": "https://github.com/vector-sh/SEO-Lint#readme",
   "engines": {
     "vscode": "^1.80.0"
   },

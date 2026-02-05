@@ -26,7 +26,6 @@ export class SeoAnalyzer {
     async analyze(document: vscode.TextDocument): Promise<vscode.Diagnostic[]> {
         const diagnostics: vscode.Diagnostic[] = [];
         const text = document.getText();
-        const languageId = document.languageId;
 
         // Only analyze files that likely contain HTML-like content
         if (!this.shouldAnalyzeFile(document, text)) {
@@ -49,15 +48,13 @@ export class SeoAnalyzer {
     }
 
     private shouldAnalyzeFile(document: vscode.TextDocument, text: string): boolean {
-        const languageId = document.languageId;
-        
         // Always analyze HTML files
-        if (languageId === 'html') {
+        if (document.languageId === 'html') {
             return true;
         }
 
         // For React/Vue files, check if they contain JSX/HTML-like content
-        if (['javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue'].includes(languageId)) {
+        if (['javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue'].includes(document.languageId)) {
             // Check for common patterns that indicate HTML content
             const hasHtmlContent = 
                 text.includes('<html') ||
