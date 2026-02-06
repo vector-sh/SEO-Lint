@@ -2,7 +2,7 @@
   "name": "seo-lint",
   "displayName": "SEO Lint - SEO Optimizer",
   "description": "Analyze and optimize website SEO directly in your editor. Real-time diagnostics for meta tags, headings, keywords, and content quality.",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "publisher": "vector-sh",
   "license": "MIT",
   "repository": {
