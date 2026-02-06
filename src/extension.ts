@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import { DiagnosticProvider } from './diagnosticProvider';
+import { TextEncoder } from 'util';
 
 let diagnosticCollection: vscode.DiagnosticCollection;
 let diagnosticProvider: DiagnosticProvider;
@@ -165,17 +166,17 @@ export function activate(context: vscode.ExtensionContext) {
         robotsCommand,
         sitemapGenerateCommand,
         sitemapValidateCommand,
-        vscode.workspace.onDidOpenTextDocument(doc => {
+        vscode.workspace.onDidOpenTextDocument((doc: vscode.TextDocument) => {
             if (shouldAnalyze(doc)) {
                 diagnosticProvider.analyzeDocument(doc);
             }
         }),
-        vscode.workspace.onDidChangeTextDocument(e => {
+        vscode.workspace.onDidChangeTextDocument((e: vscode.TextDocumentChangeEvent) => {
             if (shouldAnalyze(e.document)) {
                 diagnosticProvider.analyzeDocument(e.document);
             }
         }),
-        vscode.workspace.onDidSaveTextDocument(doc => {
+        vscode.workspace.onDidSaveTextDocument((doc: vscode.TextDocument) => {
             if (shouldAnalyze(doc)) {
                 diagnosticProvider.analyzeDocument(doc);
             }
@@ -183,7 +184,7 @@ export function activate(context: vscode.ExtensionContext) {
     );
 
     // Analyze open documents
-    vscode.workspace.textDocuments.forEach(doc => {
+    vscode.workspace.textDocuments.forEach((doc: vscode.TextDocument) => {
         if (shouldAnalyze(doc)) {
             diagnosticProvider.analyzeDocument(doc);
         }
