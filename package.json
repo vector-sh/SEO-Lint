@@ -1,0 +1,124 @@
+{
+  "name": "seo-lint",
+  "displayName": "SEO Lint - SEO Optimizer",
+  "description": "Analyze and optimize website SEO directly in your editor. Real-time diagnostics for meta tags, headings, keywords, and content quality.",
+  "version": "1.2.0",
+  "publisher": "vector-sh",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vector-sh/SEO-Lint.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vector-sh/SEO-Lint/issues"
+  },
+  "homepage": "https://github.com/vector-sh/SEO-Lint#readme",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Linters",
+    "Other"
+  ],
+  "keywords": [
+    "seo",
+    "meta tags",
+    "optimization",
+    "react",
+    "nextjs",
+    "vue",
+    "html"
+  ],
+  "activationEvents": [
+    "onLanguage:html",
+    "onLanguage:javascript",
+    "onLanguage:javascriptreact",
+    "onLanguage:typescript",
+    "onLanguage:typescriptreact",
+    "onLanguage:vue"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "seo-lint.analyzePage",
+        "title": "SEO Lint: Analyze Current Page"
+      },
+      {
+        "command": "seo-lint.runSiteAudit",
+        "title": "SEO Lint: Run Site Audit"
+      },
+      {
+        "command": "seo-lint.showReport",
+        "title": "SEO Lint: Show SEO Report"
+      },
+      {
+        "command": "seo-lint.validateRobotsTxt",
+        "title": "SEO Lint: Validate robots.txt"
+      },
+      {
+        "command": "seo-lint.generateSitemap",
+        "title": "SEO Lint: Generate sitemap.xml"
+      },
+      {
+        "command": "seo-lint.validateSitemap",
+        "title": "SEO Lint: Validate sitemap.xml"
+      }
+    ],
+    "configuration": {
+      "title": "SEO Lint",
+      "properties": {
+        "seoLint.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable SEO Lint diagnostics"
+        },
+        "seoLint.minWordCount": {
+          "type": "number",
+          "default": 300,
+          "description": "Minimum word count for content quality"
+        },
+        "seoLint.maxKeywordDensity": {
+          "type": "number",
+          "default": 3,
+          "description": "Maximum keyword density percentage"
+        },
+        "seoLint.requireMetaDescription": {
+          "type": "boolean",
+          "default": true,
+          "description": "Require meta description tags"
+        },
+        "seoLint.requireOpenGraph": {
+          "type": "boolean",
+          "default": true,
+          "description": "Require Open Graph tags"
+        },
+        "seoLint.checkReadability": {
+          "type": "boolean",
+          "default": true,
+          "description": "Check content readability"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src --ext ts",
+    "pretest": "npm run compile",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.80.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
+    "node-html-parser": "^6.1.0"
+  }
+}
